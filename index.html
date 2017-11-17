@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head onload="init()">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,10 +39,94 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+     <script type="text/javascript">
+    function init() {
+      //// Initialize Firebase.
+      //// TODO: replace with your Firebase project configuration.
+      var config = {
+    apiKey: "AIzaSyDKXlsZOg0Yn6tOukbaH2LHV_DWLfZvmGU",
+    authDomain: "document-collaboration-1511.firebaseapp.com",
+    databaseURL: "https://document-collaboration-1511.firebaseio.com",
+    projectId: "document-collaboration-1511",
+    storageBucket: "document-collaboration-1511.appspot.com",
+    messagingSenderId: "439509811911"
+      };
+      firebase.initializeApp(config);
+}
+   
+        function toggleSignIn() {
+      if (firebase.auth().currentUser) {
+        // [START signout]
+        firebase.auth().signOut();
+        // [END signout]
+      } else {
+        var email = document.getElementById('form-username').value;
+        var password = document.getElementById('form-password').value;
+        if (email.length < 4) {
+          alert('Please enter an email address.');
+          return;
+        }
+        if (password.length < 4) {
+          alert('Please enter a password.');
+          return;
+        }
+        // Sign in with email and pass.
+        // [START authwithemail]
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          document.getElementById('quickstart-sign-in').disabled = false;
+          // [END_EXCLUDE]
+        });
+        // [END authwithemail]
+      }
+      document.getElementById('quickstart-sign-in').disabled = true;
+    }
+
+    /**
+     * Handles the sign up button press.
+     */
+    function handleSignUp() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      if (email.length < 4) {
+        alert('Please enter an email address.');
+        return;
+      }
+      if (password.length < 4) {
+        alert('Please enter a password.');
+        return;
+      }
+      // Sign in with email and pass.
+      // [START createwithemail]
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+      // [END createwithemail]
+    }
+    </script>
 
 </head>
 
-<body>
+<body  >
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -133,8 +217,13 @@
                                                                                     <label class="sr-only" for="form-password">Password</label>
                                                                                     <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
                                                                                  </div>
-                                                                                   <a href="dashboard.html" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Sign In!</a>
+                                                                                   <!-- <a href="dashboard.html" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Sign In!</a> -->
                                                                                  <!-- <button type="submit" class="btn">Sign in!</button> -->
+                                                                                 
+                                                                                 <input id = "clickme" type = "button" value = "clickme" onclick = "toggleSignIn();"/>
+
+                                                                                 <button onclick="toggleSignIn()">hrehe</button>
+
 
                                                                       </form>
                                                                   </div>
