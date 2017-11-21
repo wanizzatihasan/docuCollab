@@ -3,10 +3,10 @@
 
 <head>
     <style>
-        body {
+        /* body {
             margin: 0;
             min-width: 250px;
-        }
+        } */
 
         /* Include the padding and border in an element's total width and height */
 
@@ -91,7 +91,7 @@
         /* Style the header */
 
         .header {
-            background-color: #f44336;
+            background-color:grey;
             padding: 30px 40px;
             color: white;
             text-align: center;
@@ -139,22 +139,22 @@
 
     <div id="myDIV" class="header">
         <h2 style="margin:5px">Document Checklist</h2>
-        <input type="text" id="myInput" placeholder="Title...">
+        <input type="text" id="myInput" placeholder="Title..." autofocus>
         <span onclick="newElement()" class="addBtn">Add</span>
     </div>
 
-    <ul id="myUL">
-        <li>Introduction</li>
-        <li class="checked">Question 1</li>
-        <li>Question 2</li>
-        <li>Question 3</li>
-        <li>Conclusion</li>
-        <li>References</li>
+    <ul id="myUL" class="checklist">
+        <li class="checklist">Introduction</li>
+        <li class="checklist">Question 1</li>
+        <li class="checklist">Question 2</li>
+        <li class="checklist">Question 3</li>
+        <li class="checklist">Conclusion</li>
+        <li class="checklist">References</li>
     </ul>
 
     <script>
         // Create a "close" button and append it to each list item
-        var myNodelist = document.getElementsByTagName("LI");
+        var myNodelist = document.getElementsByClassName("checklist");
         var i;
         for (i = 0; i < myNodelist.length; i++) {
             var span = document.createElement("SPAN");

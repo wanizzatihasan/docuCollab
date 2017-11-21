@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>SB Admin - Start Bootstrap Template</title>
+  <title>Document Dashboard</title>
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -16,6 +16,7 @@
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  <link href="css/checklist.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -285,58 +286,61 @@
 </div>
       
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h4 class="modal-title" id="myModalLabel">Login</h4>
-      </div>
 
-      <div class="modal-body">
-        <div class="top-content">
-          <div class="inner-bg">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-4 col-sm-offset-1 text">
-                  <h1>
-                    <strong>
-                      <font color="black">Login</font>
-                    </strong>
-                  </h1>
-                </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create Document</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Insert Document Detail</p>
+          <form action="/users" method="post">
+            <div style="margin:0;padding:0">
+              <table>
+                <tr>
+                  <td><label for="title">Document Title : </label></td>
+                  <td><input id="docu_title" name="docu_title" size="30" type="text" /></td>
+                </tr>
+              <tr>
+                <td><label for="date">Document Submission Date : </label></td>
+                <td><input id="docu_date" name="docu_date" size="30" type="text" /></td>
+              </tr>
+              </table>
+              <br>
+              <div class="modal-footer">
               </div>
-              <div class="row">
-                <div class="col-sm-4 col-sm-offset-1 form-box">
-                  <div class="form-top">
-                    <div class="form-top-right">
-                      <div class="form-bottom">
-                        <form role="form" action="" method="post" class="login-form">
-                          <div class="form-group">
-                            <label class="sr-only" for="form-username">Username</label>
-                            <input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="form-username">
-                          </div>
-                          <div class="form-group">
-                            <label class="sr-only" for="form-password">Password</label>
-                            <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
-                          </div>
-                          <!-- <a href="dashboard.html" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Sign In!</a> -->
-                          <!-- <button type="submit" class="btn">Sign in!</button> -->
-                          <input id="clickme" type="button" value="clickme" onclick="toggleSignIn();" />
-                          <button onclick="toggleSignIn()">login</button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <label for="date">Document Checklist : </label>
+              <style>
+                
+              </style>
+              <div id="myDIV" class="checklist_header">
+                <input class ="checklist_input" type="text" id="myInput" placeholder="Title..." autofocus>
+                <span onclick="newElement()" class="checklist_addBtn">Add</span>
               </div>
-            </div>
+              
+              <ul id="myUL">
+                <li class="checklist">Introduction</li>
+                <li class="checklist">Question 1</li>
+                <li class="checklist">Question 2</li>
+                <li class="checklist">Question 3</li>
+                <li class="checklist">Conclusion</li>
+                <li class="checklist">References</li>
+              </ul>
           </div>
+        </form>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+
     <!-- /.container-fluid-->
  
     <!-- Scroll to Top Button-->
@@ -375,6 +379,63 @@
     <!-- Custom scripts for this page-->
     <script src="js/sb-admin-datatables.min.js"></script>
     <script src="js/sb-admin-charts.min.js"></script>
+    <script>
+      // Create a "close" button and append it to each list item
+      var myNodelist = document.getElementsByClassName("checklist");
+      var i;
+      for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "checklist_close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+      }
+
+      // Click on a close button to hide the current list item
+      var close = document.getElementsByClassName("checklist_close");
+      var i;
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+          var div = this.parentElement;
+          div.style.display = "none";
+        }
+      }
+
+      // Add a "checked" symbol when clicking on a list item //untuk real checklist on doc editing
+      // var list = document.querySelector('ul');
+      // list.addEventListener('click', function (ev) {
+      //   if (ev.target.tagName === 'LI') {
+      //     ev.target.classList.toggle('checked');
+      //   }
+      // }, false);
+
+      // Create a new list item when clicking on the "Add" button
+      function newElement() {
+        var li = document.createElement("li");
+        var inputValue = document.getElementById("myInput").value;
+        var t = document.createTextNode(inputValue);
+        li.appendChild(t);
+        if (inputValue === '') {
+          alert("You must write something!");
+        } else {
+          document.getElementById("myUL").appendChild(li);
+        }
+        document.getElementById("myInput").value = "";
+
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "checklist_close";
+        span.appendChild(txt);
+        li.appendChild(span);
+
+        for (i = 0; i < close.length; i++) {
+          close[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.display = "none";
+          }
+        }
+      }
+    </script>
   </div>
 </body>
 
