@@ -67,12 +67,12 @@
 
         /* Style the close button */
 
-        /* .checklist_close {
+        .checklist_close {
             position: absolute;
             right: 0;
             top: 0;
             padding: 12px 16px 12px 16px;
-        } */
+        }
 
         .checklist_close:hover {
             background-color: #f44336;
