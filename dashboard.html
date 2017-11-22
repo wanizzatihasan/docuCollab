@@ -17,6 +17,177 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
   <link href="css/checklist.css" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script type="text/javascript">
+  var config = {
+    apiKey: "AIzaSyDKXlsZOg0Yn6tOukbaH2LHV_DWLfZvmGU",
+    authDomain: "document-collaboration-1511.firebaseapp.com",
+    databaseURL: "https://document-collaboration-1511.firebaseio.com",
+    projectId: "document-collaboration-1511",
+    storageBucket: "document-collaboration-1511.appspot.com",
+    messagingSenderId: "439509811911"
+  };
+  firebase.initializeApp(config);
+</script>
+<script type="text/javascript">
+        function toggleSignIn() {
+
+          if (firebase.auth().currentUser) {
+            // [START signout]
+            firebase.auth().signOut();
+            // [END signout]
+          } else {
+            var email = document.getElementById('form-username').value;
+            var password = document.getElementById('form-password').value;
+            if (email.length < 4) {
+              alert('Please enter an email address.');
+              return;
+            }
+            if (password.length < 4) {
+              alert('Please enter a password.');
+              return;
+            }
+
+            // Sign in with email and pass.
+            // [START authwithemail]
+            firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // [START_EXCLUDE]
+              if (errorCode === 'auth/wrong-password') {
+                alert('Wrong password.');
+              } else {
+                alert(errorMessage);
+              }
+              console.log(error);
+              //   document.getElementById('quickstart-sign-in').disabled = false;
+              // [END_EXCLUDE]
+            });
+            // [END authwithemail]
+            //   document.getElementById('quickstart-sign-in').disabled = true;
+          }
+        }
+
+        /**
+         * Handles the sign up button press.
+         */
+        function handleSignUp() {
+          var email = document.getElementById('email').value;
+          var password = document.getElementById('password').value;
+          if (email.length < 4) {
+            alert('Please enter an email address.');
+            return;
+          }
+          if (password.length < 4) {
+            alert('Please enter a password.');
+            return;
+          }
+          // Sign in with email and pass.
+          // [START createwithemail]
+          firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // [START_EXCLUDE]
+            if (errorCode == 'auth/weak-password') {
+              alert('The password is too weak.');
+            } else {
+              alert(errorMessage);
+            }
+            console.log(error);
+            // [END_EXCLUDE]
+          });
+
+          firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // [START_EXCLUDE]
+            if (errorCode === 'auth/wrong-password') {
+              alert('Wrong password.');
+            } else {
+              alert(errorMessage);
+            }
+            console.log(error);
+            //   document.getElementById('quickstart-sign-in').disabled = false;
+            // [END_EXCLUDE]
+          });
+          // [END createwithemail]
+
+
+        }
+
+        //    logut
+        function logout() {
+          firebase.auth().signOut();
+        }
+        //logiut end
+
+        function initApp() {
+          // Listening for auth state changes. // [START authstatelistener] 
+          firebase.auth().onAuthStateChanged(function (user) {
+            // [START_EXCLUDE silent] 
+            // document.getElementById('quickstart-verify-email').disabled = true; 
+            // [END_EXCLUDE] 
+            if (user) {
+              // User is signed in. 
+              var displayName = user.displayName;
+              var email = user.email;
+              var emailVerified = user.emailVerified;
+              var photoURL = user.photoURL;
+              var isAnonymous = user.isAnonymous;
+              var uid = user.uid;
+              var providerData = user.providerData;
+              // [START_EXCLUDE] 
+              // document.getElementById('quickstart-sign-in-status').textContent = 'Signed in'; 
+              console.log('sign in');
+              // document.getElementById('quickstart-sign-in').textContent= 'Sign out';
+              // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
+              // console.log(JSON.stringify(user, null, ' '));
+              if (!emailVerified) {
+                // document.getElementById('quickstart-verify-email').disabled = false;
+
+              }
+              // [END_EXCLUDE] 
+
+              //store to db
+              // Get a reference to the database service 
+              var database = firebase.database();
+              database.ref('testuser/' + uid)
+                .set({
+                  username: displayName,
+                  email: email,
+                });
+              //store to db end
+            }
+            else {
+              // User is signed out.
+              // [START_EXCLUDE] 
+              // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+              console.log('sign out');
+              window.location = 'index.html';
+              //  document.getElementById('quickstart-sign-in').textContent = 'Sign in';
+              // document.getElementById('quickstart-account-details').textContent = 'null';
+              // [END_EXCLUDE] 
+            }
+            // [START_EXCLUDE silent] 
+            // document.getElementById('quickstart-sign-in').disabled = false; 
+            // [END_EXCLUDE] 
+          });
+          // [END authstatelistener] 
+          //         document.getElementById('quickstart-sign-in').addEventListener('click',toggleSignIn, false);
+          // document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
+          // document.getElementById('quickstart-verify-email').addEventListener('click',
+          //     sendEmailVerification, false);
+          // document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset,
+          //     false);
+        }
+        window.onload = function () {
+          initApp();
+        };
+</script>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -314,15 +485,12 @@
               <div class="modal-footer">
               </div>
               <label for="date">Document Checklist : </label>
-              <style>
-                
-              </style>
               <div id="myDIV" class="checklist_header">
                 <input class ="checklist_input" type="text" id="myInput" placeholder="Title..." autofocus>
                 <span onclick="newElement()" class="checklist_addBtn">Add</span>
               </div>
               
-              <ul id="myUL">
+              <ul class = "checklist_ul" id="myUL">
                 <li class="checklist">Introduction</li>
                 <li class="checklist">Question 1</li>
                 <li class="checklist">Question 2</li>
@@ -360,7 +528,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" onclick="logout();">Logout</a>
           </div>
         </div>
       </div>
@@ -436,6 +604,7 @@
         }
       }
     </script>
+    <script>function logout() { firebase.auth().signOut(); }</script> 
   </div>
 </body>
 

@@ -14,7 +14,7 @@
 
         /* Style the list items */
 
-        .checklist_ul .checklist_li {
+        .checklist_ul .checklist {
             cursor: pointer;
             position: relative;
             padding: 12px 8px 12px 40px;
@@ -32,19 +32,19 @@
 
         /* Set all odd list items to a different color (zebra-stripes) */
 
-        .checklist_ul .checklist_li:nth-child(odd) {
+        .checklist_ul .checklist:nth-child(odd) {
             background: #f9f9f9;
         }
 
         /* Darker background-color on hover */
 
-        .checklist_ul .checklist_li:hover {
+        .checklist_ul .checklist:hover {
             background: #ddd;
         }
 
         /* When clicked on, add a background color and strike out text */
 
-        .checklist_ul .checklist_li.checked {
+        .checklist_ul .checklist.checked {
             background: #888;
             color: #fff;
             text-decoration: line-through;
@@ -52,7 +52,7 @@
 
         /* Add a "checked" mark when clicked on */
 
-        .checklist_ul .checklist_li.checked::before {
+        .checklist_ul .checklist.checked::before {
             content: '';
             position: absolute;
             border-color: #fff;
@@ -70,7 +70,7 @@
         .checklist_close {
             position: absolute;
             right: 0;
-            top: 0;
+            /* top: 0; */
             padding: 12px 16px 12px 16px;
         }
 
