@@ -105,6 +105,11 @@
             if (password.length < 4) {
                 alert('Please enter a password.');
                 return;
+
+            if (username.length <4 ){
+                alert('Please enter username.');
+                return;
+            }
             }
             // Sign in with email and pass.
             // [START createwithemail]
@@ -248,11 +253,7 @@ function logout(){
 
             <div class="row">
                 <div class="col-lg-12">
-<!-- logiut -->
 
-        <button type="submit" class="btn btn-primary btn-block" onclick="logout();">Logut</button>
-   
-<!-- logut end -->
                     <div class="intro-message">
                         <h1>Document Collaboration for Student</h1>
                         <h3>A Place to Connect</h3>
