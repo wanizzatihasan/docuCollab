@@ -31,95 +31,7 @@
   firebase.initializeApp(config);
 </script>
 <script type="text/javascript">
-        function toggleSignIn() {
-
-          if (firebase.auth().currentUser) {
-            // [START signout]
-            firebase.auth().signOut();
-            // [END signout]
-          } else {
-            var email = document.getElementById('form-username').value;
-            var password = document.getElementById('form-password').value;
-            if (email.length < 4) {
-              alert('Please enter an email address.');
-              return;
-            }
-            if (password.length < 4) {
-              alert('Please enter a password.');
-              return;
-            }
-
-            // Sign in with email and pass.
-            // [START authwithemail]
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // [START_EXCLUDE]
-              if (errorCode === 'auth/wrong-password') {
-                alert('Wrong password.');
-              } else {
-                alert(errorMessage);
-              }
-              console.log(error);
-              //   document.getElementById('quickstart-sign-in').disabled = false;
-              // [END_EXCLUDE]
-            });
-            // [END authwithemail]
-            //   document.getElementById('quickstart-sign-in').disabled = true;
-          }
-        }
-
-        /**
-         * Handles the sign up button press.
-         */
-        function handleSignUp() {
-          var email = document.getElementById('email').value;
-          var password = document.getElementById('password').value;
-          if (email.length < 4) {
-            alert('Please enter an email address.');
-            return;
-          }
-          if (password.length < 4) {
-            alert('Please enter a password.');
-            return;
-          }
-          // Sign in with email and pass.
-          // [START createwithemail]
-          firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // [START_EXCLUDE]
-            if (errorCode == 'auth/weak-password') {
-              alert('The password is too weak.');
-            } else {
-              alert(errorMessage);
-            }
-            console.log(error);
-            // [END_EXCLUDE]
-          });
-
-          firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // [START_EXCLUDE]
-            if (errorCode === 'auth/wrong-password') {
-              alert('Wrong password.');
-            } else {
-              alert(errorMessage);
-            }
-            console.log(error);
-            //   document.getElementById('quickstart-sign-in').disabled = false;
-            // [END_EXCLUDE]
-          });
-          // [END createwithemail]
-
-
-        }
-
-        //    logut
+       //    logut
         function logout() {
           firebase.auth().signOut();
         }
@@ -140,24 +52,16 @@
               var isAnonymous = user.isAnonymous;
               var uid = user.uid;
               var providerData = user.providerData;
-              // [START_EXCLUDE] 
-              // document.getElementById('quickstart-sign-in-status').textContent = 'Signed in'; 
-              console.log('sign in');
-              // document.getElementById('quickstart-sign-in').textContent= 'Sign out';
-              // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
-              // console.log(JSON.stringify(user, null, ' '));
+              document.getElementById('displayName').textContent = uid; 
               if (!emailVerified) {
-                // document.getElementById('quickstart-verify-email').disabled = false;
-
               }
-              // [END_EXCLUDE] 
 
               //store to db
               // Get a reference to the database service 
               var database = firebase.database();
               database.ref('testuser/' + uid)
                 .set({
-                  username: displayName,
+                  name: uid,
                   email: email,
                 });
               //store to db end
@@ -190,10 +94,12 @@
 </script>
 </head>
 
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+    
+     Hello <span id="displayName">Unknown</span>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

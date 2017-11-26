@@ -97,6 +97,7 @@
         function handleSignUp() {
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
+            var username = document.getElementById('username').value;
             if (email.length < 4) {
                 alert('Please enter an email address.');
                 return;
@@ -121,19 +122,21 @@
                 // [END_EXCLUDE]
             });
 
+
+        
             firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
                     // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // [START_EXCLUDE]
-                    if (errorCode === 'auth/wrong-password') {
-                        alert('Wrong password.');
-                    } else {
-                        alert(errorMessage);
-                    }
-                    console.log(error);
-                    //   document.getElementById('quickstart-sign-in').disabled = false;
-                    // [END_EXCLUDE]
+                    // var errorCode = error.code;
+                    // var errorMessage = error.message;
+                    // // [START_EXCLUDE]
+                    // if (errorCode === 'auth/wrong-password') {
+                    //     alert('Wrong password.');
+                    // } else {
+                    //     alert(errorMessage);
+                    // }
+                    // console.log(error);
+                    // //   document.getElementById('quickstart-sign-in').disabled = false;
+                    // // [END_EXCLUDE]
                 });
             // [END createwithemail]
             
@@ -154,7 +157,7 @@ function logout(){
                 // document.getElementById('quickstart-verify-email').disabled = true; 
                 // [END_EXCLUDE] 
                 if (user)
-                { 
+                {
                     // User is signed in. 
                     var displayName = user.displayName; 
                     var email = user.email; 
@@ -169,24 +172,26 @@ function logout(){
                     // document.getElementById('quickstart-sign-in').textContent= 'Sign out';
                     // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
                     // console.log(JSON.stringify(user, null, ' '));
-                    if (!emailVerified) {
-                        // document.getElementById('quickstart-verify-email').disabled = false;
+                    // if (!emailVerified) {
+                    //     // document.getElementById('quickstart-verify-email').disabled = false;
                         
-                    } 
+                    // } 
                     // [END_EXCLUDE] 
 
-                    //store to db
+                    // store to db
                     // Get a reference to the database service 
-                    var database = firebase.database();
-                    database.ref('testuser/'+uid)
-                                        .set({ 
-                    username: displayName,
-                    email: email,
-                            });
-                    //store to db end
+                    // var database = firebase.database();
+                    // var hehe = document.getElementById('username').value;
+                    // //store to db end
+                    // function writeUserData(uid, name, email) {
+                    //         firebase.database().ref('testuser/' + uid).set({
+                    //             username: hehe,
+                    //             email: email,
+                    //         });
+                    //     }
                     window.location = 'dashboard.html';
-                    } 
-                    else { 
+                } 
+                else { 
                         // User is signed out.
                     // [START_EXCLUDE] 
                     // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
