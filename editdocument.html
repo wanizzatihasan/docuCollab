@@ -33,6 +33,8 @@
       var myNodelist = document.getElementsByClassName("checklist");
       var i;
       var counter = 0;
+      var inputEmail = [];
+
       for (i = 0; i < myNodelist.length; i++) {
         var span = document.createElement("SPAN");
         var txt = document.createTextNode("\u00D7");
@@ -41,24 +43,8 @@
         myNodelist[i].appendChild(span);
       }
 
-      // Click on a close button to hide the current list item
-      var close = document.getElementsByClassName("checklist_close");
-      var i;
-      for (i = 0; i < close.length; i++) {
-        close[i].onclick = function () {
-          var div = this.parentElement;
-          div.style.display = "none";
-        }
-      }
-
-      // Add a "checked" symbol when clicking on a list item //untuk real checklist on doc editing
-      // var list = document.querySelector('ul');
-      // list.addEventListener('click', function (ev) {
-      //   if (ev.target.tagName === 'LI') {
-      //     ev.target.classList.toggle('checked');
-      //   }
-      // }, false);
-          var inputEmail = [];
+      
+      
 
       // Create a new list item when clicking on the "Add" button
       function newElement() {
@@ -84,29 +70,37 @@
         span.appendChild(txt);
         li.appendChild(span);
 
-        for (i = 0; i < close.length; i++) {
+        // Click on a close button to hide the current list item
+        var close = document.getElementsByClassName("checklist_close");
+        //coding untuk closekan list of emails kat sini rupanya
+        for (var i = 0; i < close.length; i++) {
           close[i].onclick = function () {
+            console.log("delete ni wei " + i);
+            inputEmail.splice(i, 1);
             var div = this.parentElement;
             div.style.display = "none";
           }
         }
-      }
+      } //value i tak update, remain the same walaupun dah click X tu
+
+      // //delete selected item form array
+      // for (var i = array.length - 1; i >= 0; i--) {
+      //   if (array[i] === number) {
+      //     array.splice(i, 1);
+      //   }
+      // }
 
     function emailInv() {
       for (var i = 1; i <= counter; i++) {
-        var checklist_id = ("checklist" + i);
-
-        var emailinv = document.getElementById("checklist" + i).getAttribute('id');
         console.log(inputEmail[i]);
-
-        
-        emailjs.send("docucollab", "docucollab", { to_email: inputEmail[i] , from_name: "DocuCollab", doc_title: "Assignment 1" })
-            .then(function (response) {
-              console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
-            }, function (err) {
-              console.log("FAILED. error=", err);
-            });
+        // emailjs.send("docucollab", "docucollab", { to_email: inputEmail[i] , from_name: "DocuCollab", doc_title: "Assignment 1" })
+        //     .then(function (response) {
+        //       console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+        //     }, function (err) {
+        //       console.log("FAILED. error=", err);
+        //     });
       }
+
      
 
     }
@@ -130,7 +124,7 @@
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="tables.html">
+          <a class="nav-link" href="checklist.html">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Checklist</span>
           </a>
