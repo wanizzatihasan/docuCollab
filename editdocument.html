@@ -17,7 +17,6 @@
   <link href="firepad-userlist.css" rel="stylesheet">
     <link href="css/checklist.css" rel="stylesheet">
 
-  
 
     <!-- start email invitation -->
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -43,7 +42,6 @@
         myNodelist[i].appendChild(span);
       }
 
-      
       
 
       // Create a new list item when clicking on the "Add" button
@@ -81,8 +79,9 @@
             div.style.display = "none";
           }
         }
-      } //value i tak update, remain the same walaupun dah click X tu
+      } 
 
+      //value i tak update, remain the same walaupun dah click X tu
       // //delete selected item form array
       // for (var i = array.length - 1; i >= 0; i--) {
       //   if (array[i] === number) {
@@ -93,22 +92,19 @@
     function emailInv() {
       for (var i = 1; i <= counter; i++) {
         console.log(inputEmail[i]);
-        // emailjs.send("docucollab", "docucollab", { to_email: inputEmail[i] , from_name: "DocuCollab", doc_title: "Assignment 1" })
-        //     .then(function (response) {
-        //       console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
-        //     }, function (err) {
-        //       console.log("FAILED. error=", err);
-        //     });
+        emailjs.send("docucollab", "docucollab", { to_email: inputEmail[i] , from_name: "DocuCollab", doc_title: "Assignment 1" })
+            .then(function (response) {
+              console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+            }, function (err) {
+              console.log("FAILED. error=", err);
+            });
       }
-
-     
-
     }
     </script>
 
 </head>
 
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<body class="fixed-nav sticky-footer bg-dark" id="page-top" onload="getuserdata()">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="index.html">Start Bootstrap</a>
@@ -246,9 +242,9 @@
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="index.html">Dashboard</a>
+          <a>Document Title</a>
         </li>
-        <li class="breadcrumb-item active">Blank Page</li>
+        <li class="breadcrumb-item active"></li>
       </ol>
       <div class="row">
         <div class="col-12">
@@ -309,7 +305,6 @@
           <div id="firepad-userlist"></div>
           <div id="firepad"></div>
         </div>
-       
             <table>
               <tr>
                 <td>
@@ -352,6 +347,13 @@
     function displayPads() {
       $('#my-pads-list').toggle();
     }
+ function getuserdata(){
+       firebase.auth().onAuthStateChanged(function (user) {
+     if (user) {
+       var database = firebase.database();
+  }
+
+
 </script>
 </body>
 </html>
@@ -397,7 +399,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Invite Member</h4>
+            <h4 class="modal-title" >Invite Member</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
@@ -407,7 +409,7 @@
                   <input class="checklist_input" type="text" id="myInput" placeholder="Email..." autofocus>
                   <span onclick="newElement()" class="checklist_addBtn">Add</span>
                 </div>
-    
+  
                 <ul class="checklist_ul" id="myUL">
               
                 </ul>
@@ -415,7 +417,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" onclick="emailInv();">Invite</button>
+            <button href="#" type="button" class="btn btn-primary" onclick="emailInv();"data-dismiss="modal">Invite</button>
             <button href="#" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
            
           </div>

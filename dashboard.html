@@ -18,32 +18,9 @@
   <link href="css/sb-admin.css" rel="stylesheet">
   <link href="css/checklist.css" rel="stylesheet">
 
- <!-- create document  -->
-<script>
- function saveDocInfo(){
-    firebase.auth().onAuthStateChanged(function (user) {
-     // [START_EXCLUDE silent] 
-     // document.getElementById('quickstart-verify-email').disabled = true; 
-     // [END_EXCLUDE] 
-     if (user) {
-      var database = firebase.database();
-      var docu_title = document.getElementById("docu_title").value;
-      var docu_date = document.getElementById("docu_date").value;
-      var docu_id = document.getElementById()
-      var uid = user.uid;
-      database.ref('documentInfo/')
-        .set({
-          docu_title: docu_title,
-          docu_date: docu_date,
-        });
-     }
-      else{
 
-      }
-    });
- }
 
-</script>
+
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script type="text/javascript">
   var config = {
@@ -115,7 +92,7 @@
           // document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset,
           //     false);
 
-
+        }
         window.onload = function () {
           initApp();
         };
@@ -392,8 +369,6 @@
 </div>
       
 
-
-
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -428,18 +403,13 @@
               </div>
               
               <ul class = "checklist_ul" id="myUL">
-                <li class="checklist">Introduction</li>
-                <li class="checklist">Question 1</li>
-                <li class="checklist">Question 2</li>
-                <li class="checklist">Question 3</li>
-                <li class="checklist">Conclusion</li>
-                <li class="checklist">References</li>
+  
               </ul>
           </div>
         </form>
       </div>
         <div class="modal-footer">
-          <a class="btn btn-primary" onclick="saveDocInfo()" >Create</a>
+          <a class="btn btn-primary" onclick="saveDocInfo()" href = "editdocument.html" >Create</a>
         </div>
       </div>
     </div>
@@ -486,9 +456,12 @@
     <script src="js/sb-admin-charts.min.js"></script>
     <script>
       // Create a "close" button and append it to each list item
+      var counter = 0;
+      var inputChecklist = [];
       var myNodelist = document.getElementsByClassName("checklist");
-      var i;
+      var i; 
       for (i = 0; i < myNodelist.length; i++) {
+        
         var span = document.createElement("SPAN");
         var txt = document.createTextNode("\u00D7");
         span.className = "checklist_close";
@@ -519,6 +492,9 @@
         var li = document.createElement("li");
         var inputValue = document.getElementById("myInput").value;
         var t = document.createTextNode(inputValue);
+        counter = counter + 1;
+        inputChecklist[counter] = document.getElementById("myInput").value;
+
         li.className = "checklist";
         li.appendChild(t);
         if (inputValue === '') {
@@ -541,6 +517,29 @@
           }
         }
       }
+
+
+      //  <!--create document  -->
+      function saveDocInfo(){
+        firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          var database = firebase.database();
+          var docu_title = document.getElementById("docu_title").value;
+          var docu_date = document.getElementById("docu_date").value;
+          var docu_id = Math.floor((Math.random() * 9999999999) + 1111111111);
+          var uid = user.uid;
+          database.ref('documentInfo/' + docu_id+' ' + docu_title)
+          .set({
+            document_title: docu_title,
+            document_date: docu_date,
+            document_checklist : inputChecklist
+          });
+      }
+      else{
+            }
+    });
+ }
+
     </script>
     <script>function logout() { firebase.auth().signOut(); }</script> 
   </div>
